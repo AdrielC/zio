@@ -155,9 +155,8 @@ object Scan extends ZIOAppDefault {
    _modify: => SafeFn[(S0, I), (S0, Chunk[O])],
    override val onComplete: SafeFn[S0, Chunk[O]]
   ) extends Scan[I, O] {
-    type State = S0
-    lazy val initial: S0 = _initial()
-
+    override type State = S0
+    override lazy val initial: S0 = _initial()
     override lazy val modify = _modify
 
     override lazy val hashCode: Int =
@@ -202,7 +201,7 @@ object Scan extends ZIOAppDefault {
 
     type State = Unit
 
-    lazy val initial: State = _initial.asInstanceOf[State]
+    lazy val initial: State = _initial().asInstanceOf[State]
 
     final val onComplete = SafeFn.emptyFn
 
